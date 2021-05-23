@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import { NavLink } from 'react-router-dom';
 import config from '../config';
 
 const Home = () => (
@@ -8,7 +9,7 @@ const Home = () => (
     <div>
       <h1>Awesome Website Title</h1>
       <p>Time to create an awesome website.</p>
-      <a href="/items"><Button size="lg" variant="outline-dark">{'Let\'s go'}</Button></a>
+      <NavLink to="/items"><Button size="lg" variant="outline-dark">{'Let\'s go'}</Button></NavLink>
     </div>
   </>
 );

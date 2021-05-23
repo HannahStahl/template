@@ -5,12 +5,15 @@ const Item = ({ match, items }) => {
   const [item, setItem] = useState(undefined);
 
   useEffect(() => {
+    if (!match) return;
     const itemName = unescape(match.params.itemName).replace(/_/g, ' ');
     const itemDetails = items.find((itemInList) => (
       itemInList.itemName.toLowerCase() === itemName.toLowerCase()
     ));
     setItem(itemDetails);
-  }, [match.params.itemName, items]);
+  }, [match, items]);
+
+  if (!items || items.length === 0 || !match) return <></>;
 
   return (
     <div>

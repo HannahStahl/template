@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import {
-  BrowserRouter, withRouter, Route, Switch,
-} from 'react-router-dom';
+import { BrowserRouter, withRouter, Route } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
@@ -11,23 +10,42 @@ import About from './components/About';
 import Items from './components/Items';
 import Item from './components/Item';
 import Contact from './components/Contact';
-import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import config from './config';
 
-const Routes = ({ items }) => (
-  <Switch>
-    <Route path="/" exact component={Home} />
-    <Route path="/about" exact component={About} />
-    <Route path="/items" exact render={() => <Items items={items} />} />
-    <Route path="/items/:itemName" exact render={(props) => <Item match={props.match} items={items} />} />
-    <Route path="/contact" exact component={Contact} />
-    <Route component={NotFound} />
-  </Switch>
-);
+const Routes = ({ items }) => {
+  const routes = [
+    { path: '/', Component: Home },
+    { path: '/about', Component: About },
+    { path: '/items', Component: Items },
+    { path: '/items/:itemName', Component: Item },
+    { path: '/contact', Component: Contact },
+  ];
 
-const App = withRouter(() => {
+  return (
+    <>
+      {routes.map(({ path, Component }) => (
+        <Route key={path} exact path={path}>
+          {({ match }) => (
+            <CSSTransition
+              in={match !== null}
+              timeout={0}
+              classNames="page"
+              unmountOnExit
+            >
+              <div className="page">
+                <Component items={items} match={match} />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
+      ))}
+    </>
+  );
+};
+
+const App = withRouter(({ location }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -48,6 +66,10 @@ const App = withRouter(() => {
       setItems(itemsList);
     });
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
 
   return (
     <>
