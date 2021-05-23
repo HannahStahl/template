@@ -13,6 +13,7 @@ import Contact from './components/Contact';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import config from './config';
+import Context from './context';
 
 const Routes = ({ items }) => {
   const routes = [
@@ -35,7 +36,7 @@ const Routes = ({ items }) => {
               unmountOnExit
             >
               <div className="page">
-                <Component items={items} match={match} />
+                <Component match={match} />
               </div>
             </CSSTransition>
           )}
@@ -72,13 +73,13 @@ const App = withRouter(({ location }) => {
   }, [location]);
 
   return (
-    <>
+    <Context.Provider value={{ items }}>
       <NavBar />
       <div className="page-content">
         <Routes items={items} />
       </div>
       {window.location.pathname !== '/' && <Footer />}
-    </>
+    </Context.Provider>
   );
 });
 

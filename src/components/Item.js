@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import config from '../config';
+import Context from '../context';
 
-const Item = ({ match, items }) => {
+const Item = ({ match }) => {
+  const { items } = useContext(Context);
   const [item, setItem] = useState(undefined);
 
   useEffect(() => {

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import config from '../config';
+import Context from '../context';
 
-const Items = ({ items }) => {
+const Items = () => {
+  const { items } = useContext(Context);
   if (!items || items.length === 0) return <></>;
 
   return (
