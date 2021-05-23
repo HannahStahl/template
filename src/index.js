@@ -11,33 +11,24 @@ import About from './components/About';
 import Items from './components/Items';
 import Item from './components/Item';
 import Contact from './components/Contact';
-import Cart from './components/Cart';
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import config from './config';
 
-const Routes = ({ items, cart, updateCart }) => (
+const Routes = ({ items }) => (
   <Switch>
     <Route path="/" exact component={Home} />
     <Route path="/about" exact component={About} />
     <Route path="/items" exact render={() => <Items items={items} />} />
-    <Route path="/items/:itemName" exact render={(props) => <Item match={props.match} items={items} updateCart={updateCart} />} />
+    <Route path="/items/:itemName" exact render={(props) => <Item match={props.match} items={items} />} />
     <Route path="/contact" exact component={Contact} />
-    <Route path="/cart" exact render={() => <Cart items={items} cart={cart} updateCart={updateCart} />} />
     <Route component={NotFound} />
   </Switch>
 );
 
 const App = withRouter(() => {
   const [items, setItems] = useState([]);
-  const [cart, setCart] = useState([]);
-
-  const updateCart = (newCart) => {
-    if (newCart) localStorage.setItem('cart', JSON.stringify(newCart));
-    const cartStr = localStorage.getItem('cart');
-    setCart(cartStr ? JSON.parse(cartStr) : []);
-  };
 
   useEffect(() => {
     Promise.all([
@@ -56,14 +47,13 @@ const App = withRouter(() => {
       });
       setItems(itemsList);
     });
-    updateCart();
   }, []);
 
   return (
     <>
-      <NavBar cart={cart} />
+      <NavBar />
       <div className="page-content">
-        <Routes items={items} cart={cart} updateCart={updateCart} />
+        <Routes items={items} />
       </div>
       {window.location.pathname !== '/' && <Footer />}
     </>

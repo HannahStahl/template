@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import config from '../config';
 
-const Item = ({ match, items, updateCart }) => {
+const Item = ({ match, items }) => {
   const [item, setItem] = useState(undefined);
 
   useEffect(() => {
@@ -12,24 +11,6 @@ const Item = ({ match, items, updateCart }) => {
     ));
     setItem(itemDetails);
   }, [match.params.itemName, items]);
-
-  const addToCart = () => {
-    let cart = JSON.parse(localStorage.getItem('cart'));
-    const newCartItem = { itemId: item.itemId, quantity: 1 };
-    if (cart) {
-      const index = cart.findIndex((itemInList) => itemInList.itemId === newCartItem.itemId);
-      const currentCartItem = cart[index];
-      if (currentCartItem) {
-        const newQuantity = currentCartItem.quantity + parseInt(newCartItem.quantity);
-        cart[index].quantity = newQuantity;
-      } else {
-        cart.push(newCartItem);
-      }
-    } else {
-      cart = [newCartItem];
-    }
-    updateCart(cart);
-  };
 
   return (
     <div>
@@ -48,9 +29,6 @@ const Item = ({ match, items, updateCart }) => {
               </div>
             ))}
           </div>
-          <Button size="lg" variant="outline-dark" onClick={addToCart}>
-            Add to Cart
-          </Button>
         </>
       )}
     </div>
