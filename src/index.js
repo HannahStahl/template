@@ -15,7 +15,7 @@ import Footer from './components/Footer';
 import config from './config';
 import Context from './context';
 
-const Routes = ({ items }) => {
+const Routes = () => {
   const routes = [
     { path: '/', Component: Home },
     { path: '/about', Component: About },
