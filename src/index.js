@@ -31,7 +31,7 @@ const Routes = () => {
           {({ match }) => (
             <CSSTransition
               in={match !== null}
-              timeout={0}
+              timeout={300}
               classNames="page"
               unmountOnExit
             >
